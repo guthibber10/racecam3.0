@@ -8,18 +8,21 @@ workflows:
       vars:
         BUNDLE_ID: "com.austin.racecam"
     scripts:
-  # ❶ Create the missing iOS folder on the build machine
-  - name: Generate iOS platform (if missing)
-    script: |
-      if [ ! -d "ios" ]; then
-        echo "➜  Generating iOS project…"
-        flutter create . --platforms=ios
-      fi
+      - name: Generate iOS platform (if missing)
+        script: |
+          if [ ! -d "ios" ]; then
+            echo "➜  Generating iOS project…"
+            flutter create . --platforms=ios
+          fi
 
-  # ❷ Get Flutter packages
-  - name: Install dependencies
-    script: flutter pub get
+      - name: Install dependencies
+        script: flutter pub get
 
-  # ❸ Build the app (debug build, automatically codesigned later)
-  - name: Build iOS app
-    script: flutter build ios --debug
+      - name: Build iOS app
+        script: flutter build ios --debug
+    artifacts:
+      - build/ios/iphoneos/*.app
+    publishing:
+      email:
+        recipients:
+          - austin11luker@gmail.com
