@@ -1,0 +1,21 @@
+workflows:
+  ios-build:
+    name: iOS Build
+    instance_type: mac_mini
+    max_build_duration: 20
+    environment:
+      flutter: stable
+      xcode: latest
+      vars:
+        BUNDLE_ID: "com.austin.racecam"
+    scripts:
+      - name: Install dependencies
+        script: flutter pub get
+      - name: Build iOS app
+        script: flutter build ios --debug
+    artifacts:
+      - build/ios/iphoneos/*.app
+    publishing:
+      email:
+        recipients:
+          - austin11luker@gmail.com
